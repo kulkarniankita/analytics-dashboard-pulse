@@ -1,0 +1,41 @@
+generator client {
+  provider = "prisma-client-js"
+  output = "app/generated/prisma/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Analytics {
+  id           Int      @id @default(autoincrement())
+  date         DateTime
+  visitors     Int
+  revenue      Float
+  bounceRate   Float
+  sessionTime  Int      // in seconds
+}
+
+model VisitorJourney {
+  id            Int      @id @default(autoincrement())
+  name          String
+  country       String
+  device        String
+  os            String
+  browser       String
+  goal          String
+  source        String
+  timeToComplete String
+  completedAt   DateTime
+  avatarSeed    String   // for Open Peeps
+}
+
+model VisitorFilter {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  name      String   // Name of the filter (e.g., "My Custom Filter")
+  filters   Json     // Store filter preferences as JSON
+  isDefault Boolean  @default(false) // Whether this is the default filter
+}
