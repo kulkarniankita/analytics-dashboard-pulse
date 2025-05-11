@@ -2,22 +2,22 @@ import { notFound } from "next/navigation";
 import JourneyPage from "@/components/journey";
 import { getDateFilter } from "@/utils/date-utils";
 import { getJourneyInsightsByDate } from "@/lib/analytics";
-import { PageProps, TabKey } from "@/@types/insights";
+import { PageProps, InsightKey } from "@/@types/insights";
 import { VisitorJourney } from "@/prisma/app/generated/prisma/client";
 
-const validTabs = ["today", "this-week", "this-month", "custom"] as const;
+const validInsights = ["today", "this-week", "this-month", "custom"] as const;
 
-type Tab = TabKey;
+type Insight = InsightKey;
 
 export default async function Page({ params, searchParams }: PageProps) {
-  const { tab } = await params;
+  const { insight } = await params;
   const { q } = await searchParams;
 
-  if (!validTabs.includes(tab as Tab)) {
+  if (!validInsights.includes(insight as Insight)) {
     notFound();
   }
 
-  const dateFilter = getDateFilter(tab);
+  const dateFilter = getDateFilter(insight);
 
   const journeys = await getJourneyInsightsByDate(dateFilter);
 

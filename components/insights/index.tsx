@@ -1,4 +1,4 @@
-import { TabData, TabItem } from "@/@types/insights";
+import { InsightData, InsightItem } from "@/@types/insights";
 import { cn } from "@/lib/utils";
 import { VisitorJourney } from "@/prisma/app/generated/prisma/client";
 import { commonStyles } from "@/styles/common";
@@ -6,10 +6,10 @@ import { getTotalCount, mapItems } from "@/utils/insights-utils";
 import Link from "next/link";
 
 export default function Insights({ journeys }: { journeys: VisitorJourney[] }) {
-  const activeTab = "";
+  const activeInsight = "";
 
-  // Process data for each tab
-  const tabData: TabData = {
+  // Process data for each insight
+  const insightData: InsightData = {
     today: {},
     thisWeek: {},
     thisMonth: {},
@@ -32,26 +32,32 @@ export default function Insights({ journeys }: { journeys: VisitorJourney[] }) {
 
     // Today's data
     if (journeyDate >= today) {
-      if (!tabData.today[journey.source]) {
-        tabData.today[journey.source] = { count: 0, name: journey.source };
+      if (!insightData.today[journey.source]) {
+        insightData.today[journey.source] = { count: 0, name: journey.source };
       }
-      tabData.today[journey.source].count++;
+      insightData.today[journey.source].count++;
     }
 
     // This week's data
     if (journeyDate >= weekStart) {
-      if (!tabData.thisWeek[journey.source]) {
-        tabData.thisWeek[journey.source] = { count: 0, name: journey.source };
+      if (!insightData.thisWeek[journey.source]) {
+        insightData.thisWeek[journey.source] = {
+          count: 0,
+          name: journey.source,
+        };
       }
-      tabData.thisWeek[journey.source].count++;
+      insightData.thisWeek[journey.source].count++;
     }
 
     // This month's data
     if (journeyDate >= monthStart) {
-      if (!tabData.thisMonth[journey.source]) {
-        tabData.thisMonth[journey.source] = { count: 0, name: journey.source };
+      if (!insightData.thisMonth[journey.source]) {
+        insightData.thisMonth[journey.source] = {
+          count: 0,
+          name: journey.source,
+        };
       }
-      tabData.thisMonth[journey.source].count++;
+      insightData.thisMonth[journey.source].count++;
     }
   });
 
@@ -87,7 +93,7 @@ export default function Insights({ journeys }: { journeys: VisitorJourney[] }) {
               href: "/custom",
               key: "custom",
             },
-          ] as TabItem[]
+          ] as InsightItem[]
         ).map((item) => (
           <Link
             key={item.label}
@@ -99,9 +105,9 @@ export default function Insights({ journeys }: { journeys: VisitorJourney[] }) {
             )}
           >
             <p className="font-bold mb-2 text-black">
-              {item.label} ({getTotalCount(tabData, item.key)})
+              {item.label} ({getTotalCount(insightData, item.key)})
             </p>
-            <div className="text-black">{mapItems(tabData, item.key)}</div>
+            <div className="text-black">{mapItems(insightData, item.key)}</div>
           </Link>
         ))}
       </div>

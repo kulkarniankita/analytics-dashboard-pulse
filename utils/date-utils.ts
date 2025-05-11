@@ -21,10 +21,10 @@ export const getDateRanges = (now: Date = new Date()) => {
   };
 };
 
-export const getDateFilter = (tab: string): DateRange => {
+export const getDateFilter = (insight: string): DateRange => {
   const { today, weekStart, monthStart, tomorrow } = getDateRanges();
 
-  switch (tab) {
+  switch (insight) {
     case "today":
       return { gte: today };
     case "this-week":

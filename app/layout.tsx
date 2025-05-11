@@ -23,8 +23,8 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const journeys = await getJourneyInsights();
   const currentAnalytics = await getAnalytics();
+  const journeys = await getJourneyInsights();
 
   return (
     <html lang="en">

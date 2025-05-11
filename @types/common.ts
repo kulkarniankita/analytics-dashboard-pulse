@@ -13,7 +13,7 @@ export interface ChartData {
 // Page related types
 export type PageProps = {
   params: Promise<{
-    tab: string;
+    insight: string;
   }>;
   searchParams: Promise<{
     q?: string;
