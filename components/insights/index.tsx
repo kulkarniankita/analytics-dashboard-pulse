@@ -7,8 +7,14 @@ import { commonStyles } from "@/styles/common";
 import { getTotalCount, mapItems } from "@/utils/insights-utils";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import { use } from "react";
 
-export default function Insights({ journeys }: { journeys: VisitorJourney[] }) {
+export default function Insights({
+  journeysPromise,
+}: {
+  journeysPromise: Promise<VisitorJourney[]>;
+}) {
+  const journeys = use(journeysPromise);
   const activeInsight = useParams().insight;
 
   // Process data for each insight
