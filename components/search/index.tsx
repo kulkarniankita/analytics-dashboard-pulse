@@ -1,9 +1,10 @@
 import { cn } from "@/lib/utils";
 import { commonStyles } from "@/styles/common";
+import Form from "next/form";
 
 export default function Search() {
   return (
-    <form action="" className="relative flex w-full flex-col gap-2 sm:w-fit">
+    <Form action="" className="relative flex w-full flex-col gap-2 sm:w-fit">
       <label
         className="font-bold uppercase tracking-wider text-black text-2xl"
         htmlFor="search"
@@ -25,6 +26,6 @@ export default function Search() {
           type="search"
         />
       </div>
-    </form>
+    </Form>
   );
 }
