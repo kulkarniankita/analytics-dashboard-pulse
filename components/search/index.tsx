@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils";
 import { commonStyles } from "@/styles/common";
 import Form from "next/form";
+import SearchStatus from "./search-status";
 
 export default function Search() {
   return (
@@ -25,6 +26,7 @@ export default function Search() {
           placeholder="Search in task title or description..."
           type="search"
         />
+        <SearchStatus />
       </div>
     </Form>
   );
