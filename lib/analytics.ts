@@ -5,7 +5,7 @@ import { slow } from "@/utils/common";
 import { prisma } from "./prisma";
 
 export const getAnalytics = async (): Promise<PrismaAnalytics[]> => {
-  await slow(2000);
+  await slow(8000);
   // Fetch analytics data for current period (last 7 days)
   const currentAnalytics = await prisma.analytics.findMany({
     orderBy: { date: "asc" },
