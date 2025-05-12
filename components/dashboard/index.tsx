@@ -5,12 +5,12 @@ import { cn } from "@/lib/utils";
 import Stats from "./stats";
 import VisitorChart from "./visitor-chart";
 import { AnalyticsData, ChartDataPoint, StatItem } from "@/@types/dashboard";
+import { getAnalytics } from "@/lib/analytics";
 
-export default async function Dashboard({
-  currentAnalytics,
-}: {
-  currentAnalytics: AnalyticsData[];
-}) {
+export default async function Dashboard() {
+  //1
+  const currentAnalytics = await getAnalytics();
+
   // Calculate current period metrics
   const totalVisitors = currentAnalytics.reduce(
     (sum: number, a: AnalyticsData) => sum + a.visitors,

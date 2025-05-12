@@ -7,7 +7,7 @@ import type { Metadata } from "next";
 import { Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { AnalyticsInfo } from "@/components/analytics-info";
-
+import { Suspense } from "react";
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
   variable: "--font-space-grotesk",
@@ -23,19 +23,23 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const currentAnalytics = await getAnalytics();
-  const journeys = await getJourneyInsights();
-
   return (
     <html lang="en">
       <body className={`${spaceGrotesk.variable} antialiased`}>
         <Header />
 
         <main className="p-6 flex flex-col gap-6 pb-24 container mx-auto">
-          <AnalyticsInfo />
-          <Dashboard currentAnalytics={currentAnalytics} />
+          <Suspense fallback={<div>Loading Analytics Info...</div>}>
+            <AnalyticsInfo />
+          </Suspense>
 
-          <Insights journeys={journeys} />
+          <Suspense fallback={<div>Loading Dashboard...</div>}>
+            <Dashboard />
+          </Suspense>
+
+          <Suspense fallback={<div>Loading Insights...</div>}>
+            <Insights />
+          </Suspense>
 
           <Search />
 

@@ -1,11 +1,15 @@
 import { InsightData, InsightItem } from "@/@types/insights";
+import { getJourneyInsights } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 import { VisitorJourney } from "@/prisma/app/generated/prisma/client";
 import { commonStyles } from "@/styles/common";
 import { getTotalCount, mapItems } from "@/utils/insights-utils";
 import Link from "next/link";
 
-export default function Insights({ journeys }: { journeys: VisitorJourney[] }) {
+export default async function Insights() {
+  //2
+  const journeys = await getJourneyInsights();
+
   const activeInsight = "";
 
   // Process data for each insight
