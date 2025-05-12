@@ -1,3 +1,4 @@
+"use client";
 import { InsightData, InsightItem } from "@/@types/insights";
 import { getJourneyInsights } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
@@ -5,12 +6,10 @@ import { VisitorJourney } from "@/prisma/app/generated/prisma/client";
 import { commonStyles } from "@/styles/common";
 import { getTotalCount, mapItems } from "@/utils/insights-utils";
 import Link from "next/link";
+import { useParams } from "next/navigation";
 
-export default async function Insights() {
-  //2
-  const journeys = await getJourneyInsights();
-
-  const activeInsight = "";
+export default function Insights({ journeys }: { journeys: VisitorJourney[] }) {
+  const activeInsight = useParams().insight;
 
   // Process data for each insight
   const insightData: InsightData = {
@@ -105,7 +104,8 @@ export default async function Insights() {
             scroll={false}
             className={cn(
               "rounded-lg px-7 text-black py-7 min-w-[200px] bg-badge-red shadow-none font-mono border border-black",
-              "border-4 shadow-[4px_4px_0_0_#000]"
+              item.href.replace("/", "") === activeInsight &&
+                "border-4 shadow-[4px_4px_0_0_#000]"
             )}
           >
             <p className="font-bold mb-2 text-black">

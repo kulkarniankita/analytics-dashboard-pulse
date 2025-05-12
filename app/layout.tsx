@@ -26,6 +26,8 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  //2
+  const journeys = await getJourneyInsights();
   return (
     <html lang="en">
       <body className={`${spaceGrotesk.variable} antialiased`}>
@@ -46,7 +48,7 @@ export default async function RootLayout({
           </Suspense>
 
           <Suspense fallback={<InsightsSkeleton />}>
-            <Insights />
+            <Insights journeys={journeys} />
           </Suspense>
 
           <Search />
