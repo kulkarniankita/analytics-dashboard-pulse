@@ -5,6 +5,7 @@ import Form from "next/form";
 import SearchStatus from "./search-status";
 import { useRouter, useSearchParams, useParams } from "next/navigation";
 import { InsightKey } from "@/@types/insights";
+import { useTransition } from "react";
 
 export default function Search() {
   const router = useRouter();
@@ -13,6 +14,8 @@ export default function Search() {
   const activeTab = params.insight as InsightKey;
 
   const defaultValue = searchParams.get("q") || "";
+
+  const [isPending, startTransition] = useTransition();
 
   return (
     <Form
@@ -45,12 +48,14 @@ export default function Search() {
               searchParams.toString()
             );
             newSearchParams.set("q", e.target.value);
-            router.push(`?${newSearchParams.toString()}`, {
-              scroll: false,
+            startTransition(() => {
+              router.push(`?${newSearchParams.toString()}`, {
+                scroll: false,
+              });
             });
           }}
         />
-        <SearchStatus />
+        <SearchStatus searching={isPending} />
       </div>
     </Form>
   );
