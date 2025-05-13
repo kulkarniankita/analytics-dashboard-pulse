@@ -172,6 +172,15 @@ async function main() {
       data: defaultFilter,
     });
   }
+
+  // Seed AnalyticsInfo data
+  await prisma.analyticsInfo.create({
+    data: {
+      domain: "nextjscourse.dev",
+      name: "Next.js Course Analytics",
+      isActive: true,
+    },
+  });
 }
 
 // Helper functions for generating random names

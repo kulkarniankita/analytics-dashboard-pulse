@@ -1,10 +1,10 @@
 import { Badge } from "@/components/ui/badge";
-import { getAnalytics } from "@/lib/analytics";
+import { getAnalyticsInfo } from "@/lib/analytics";
 import { AnalyticsInfoResponse } from "@/@types/analytics";
 import { InfoItem } from "@/@types/components";
 
 export async function AnalyticsInfo() {
-  const analyticsInfo: AnalyticsInfoResponse = await getAnalytics();
+  const analyticsInfo: AnalyticsInfoResponse = await getAnalyticsInfo();
 
   if (!analyticsInfo) {
     return <></>;

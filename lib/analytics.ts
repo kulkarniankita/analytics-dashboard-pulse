@@ -1,4 +1,7 @@
-import { JourneyInsightsResponse } from "@/@types/analytics";
+import {
+  AnalyticsInfoResponse,
+  JourneyInsightsResponse,
+} from "@/@types/analytics";
 import { DateRange } from "@/@types/common";
 import type {
   Analytics as PrismaAnalytics,
@@ -47,4 +50,13 @@ export const getJourneyInsightsByDate = async (
 export const getVisitorFilters = async (): Promise<VisitorFilter[]> => {
   await slow(1000);
   return await prisma.visitorFilter.findMany();
+};
+
+export const getAnalyticsInfo = async (): Promise<AnalyticsInfoResponse> => {
+  await slow(1000);
+  return await prisma.analyticsInfo.findUnique({
+    where: {
+      domain: "nextjscourse.dev",
+    },
+  });
 };

@@ -39,3 +39,12 @@ model VisitorFilter {
   filters   Json     // Store filter preferences as JSON
   isDefault Boolean  @default(false) // Whether this is the default filter
 }
+
+model AnalyticsInfo {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  domain    String   @unique // e.g., "nextjscourse.dev"
+  name      String   // Name of the analytics instance
+  isActive  Boolean  @default(true)
+}
