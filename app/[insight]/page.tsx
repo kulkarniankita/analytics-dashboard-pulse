@@ -11,7 +11,7 @@ type Insight = InsightKey;
 
 export default async function Page({ params, searchParams }: PageProps) {
   const { insight } = await params;
-  const { q } = await searchParams;
+  const { q, filter } = await searchParams;
 
   if (!validInsights.includes(insight as Insight)) {
     notFound();
@@ -29,9 +29,18 @@ export default async function Page({ params, searchParams }: PageProps) {
       journey.os.toLowerCase().includes(q?.toLowerCase() || "") ||
       journey.browser.toLowerCase().includes(q?.toLowerCase() || "");
 
-    return matchesSearch;
-  });
-  const data = filteredJourneys.length > 0 ? filteredJourneys : journeys;
+    const matchesFilter =
+      !filter ||
+      (Array.isArray(filter) ? filter : [filter]).every((filterItem) => {
+        return (
+          journey.browser === filterItem ||
+          journey.os === filterItem ||
+          journey.source === filterItem
+        );
+      });
 
-  return <JourneyPage journeys={data} />;
+    return matchesSearch && matchesFilter;
+  });
+
+  return <JourneyPage journeys={filteredJourneys} />;
 }

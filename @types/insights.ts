@@ -22,5 +22,5 @@ export type InsightsDataItem = {
 
 export type PageProps = {
   params: Promise<{ insight: InsightKey }>;
-  searchParams: Promise<{ q: string; filter: string }>;
+  searchParams: Promise<{ q: string; filter: string[] }>;
 };

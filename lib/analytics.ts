@@ -1,6 +1,9 @@
 import { JourneyInsightsResponse } from "@/@types/analytics";
 import { DateRange } from "@/@types/common";
-import type { Analytics as PrismaAnalytics } from "@/prisma/app/generated/prisma/client";
+import type {
+  Analytics as PrismaAnalytics,
+  VisitorFilter,
+} from "@/prisma/app/generated/prisma/client";
 import { slow } from "@/utils/common";
 import { prisma } from "./prisma";
 
@@ -39,4 +42,9 @@ export const getJourneyInsightsByDate = async (
   });
 
   return journeys;
+};
+
+export const getVisitorFilters = async (): Promise<VisitorFilter[]> => {
+  await slow(1000);
+  return await prisma.visitorFilter.findMany();
 };

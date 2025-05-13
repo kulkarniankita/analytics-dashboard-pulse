@@ -1,42 +1,54 @@
-// import { FilterPreferences } from "@/@types/analytics";
-// import ToggleGroup from "@/components/toggle-group";
-// import { useSearchParams } from "next/navigation";
-// import { use } from "react";
+"use client";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
+import ToggleGroup from "../toggle-group";
+import { VisitorFilter as VisitorFilterType } from "@/prisma/app/generated/prisma/client";
+import { use } from "react";
+import { FilterPreferences } from "@/@types/analytics";
 
-// export default function VisitorFilter({
-//   visitorFiltersPromise,
-// }: {
-//   visitorFiltersPromise: Promise<VisitorFilter[]>;
-// }) {
-//   const visitorFilters = use(visitorFiltersPromise);
-//   const searchParams = useSearchParams();
-//   const selectedFilters = searchParams.getAll("filter");
+export default function VisitorFilter({
+  visitorFiltersPromise,
+}: {
+  visitorFiltersPromise: Promise<VisitorFilterType[]>;
+}) {
+  const visitorFilters = use(visitorFiltersPromise);
 
-//   // Transform visitor filters into toggle group options
-//   const options = visitorFilters.flatMap((filter) => {
-//     const filterPrefs = filter.filters as FilterPreferences;
-//     return Object.entries(filterPrefs).flatMap(([, values]) =>
-//       (values || []).map((value) => ({
-//         label: value,
-//         value: value,
-//       }))
-//     );
-//   });
+  const router = useRouter();
+  const searchParams = useSearchParams();
 
-//   return (
-//     <div>
-//       <ToggleGroup
-//         toggleKey="filter"
-//         options={options}
-//         selectedValues={selectedFilters}
-//         onToggle={(newFilters) => {
-//           const params = new URLSearchParams(searchParams);
-//           params.delete("filter");
-//           newFilters.forEach((filter) => {
-//             params.append("filter", filter);
-//           });
-//         }}
-//       />
-//     </div>
-//   );
-// }
+  const selectedFilters = searchParams.getAll("filter");
+
+  const options = visitorFilters.flatMap((filter) => {
+    const filterPrefs = filter.filters as FilterPreferences;
+
+    return Object.entries(filterPrefs).flatMap(([, values]) =>
+      (values || []).map((value) => ({
+        label: value,
+        value,
+      }))
+    );
+  });
+
+  return (
+    <div>
+      <ToggleGroup
+        toggleKey="filter"
+        options={options}
+        selectedValues={selectedFilters}
+        onToggle={(newFilters) => {
+          const params = new URLSearchParams(searchParams);
+
+          params.delete("filter");
+
+          newFilters.forEach((filter) => {
+            //?q="ios"&filter="chrome"&filter="firefox"
+            params.append("filter", filter);
+          });
+
+          router.push(`?${params.toString()}`, {
+            scroll: false,
+          });
+        }}
+      />
+    </div>
+  );
+}

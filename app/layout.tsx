@@ -2,7 +2,11 @@ import Dashboard from "@/components/dashboard";
 import Header from "@/components/header";
 import Insights from "@/components/insights";
 import Search from "@/components/search";
-import { getAnalytics, getJourneyInsights } from "@/lib/analytics";
+import {
+  getAnalytics,
+  getJourneyInsights,
+  getVisitorFilters,
+} from "@/lib/analytics";
 import type { Metadata } from "next";
 import { Space_Grotesk } from "next/font/google";
 import "./globals.css";
@@ -11,6 +15,8 @@ import { DashboardSkeleton } from "@/components/dashboard/skeleton";
 import { InsightsSkeleton } from "@/components/insights/skeleton";
 import { AnalyticsInfoSkeleton } from "@/components/analytics-info/skeleton";
 import { AnalyticsInfo } from "@/components/analytics-info/analytics-info";
+import { VisitorFilterSkeleton } from "@/components/visitor-filter/skeleton";
+import VisitorFilter from "@/components/visitor-filter";
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
   variable: "--font-space-grotesk",
@@ -28,6 +34,7 @@ export default async function RootLayout({
 }>) {
   //2
   const journeysPromise = getJourneyInsights();
+  const visitorFiltersPromise = getVisitorFilters();
   return (
     <html lang="en">
       <body className={`${spaceGrotesk.variable} antialiased`}>
@@ -52,6 +59,10 @@ export default async function RootLayout({
           </Suspense>
 
           <Search />
+
+          <Suspense fallback={<VisitorFilterSkeleton />}>
+            <VisitorFilter visitorFiltersPromise={visitorFiltersPromise} />
+          </Suspense>
 
           {children}
         </main>
