@@ -95,7 +95,8 @@ export default async function JourneyPage({
       className={cn(
         commonStyles.container,
         commonStyles.shadow,
-        "bg-badge-pink"
+        "bg-badge-pink",
+        "group-has-[[data-pending]]:animate-pulse"
       )}
     >
       <h1 className={commonStyles.heading}>Visitor Journey</h1>

@@ -40,7 +40,7 @@ export default async function RootLayout({
       <body className={`${spaceGrotesk.variable} antialiased`}>
         <Header />
 
-        <main className="p-6 flex flex-col gap-6 pb-24 container mx-auto">
+        <main className="p-6 flex flex-col gap-6 pb-24 container mx-auto group">
           <div className="flex flex-col gap-4">
             <h1 className="text-4xl font-black text-black bg-yellow-300 inline-block px-2 py-2 border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
               Analytics Info
