@@ -5,6 +5,11 @@ const nextConfig: NextConfig = {
   compiler: {
     removeConsole: process.env.NODE_ENV !== "development",
   },
+  experimental: {
+    staleTimes: {
+      dynamic: 30,
+    },
+  },
 };
 
 export default nextConfig;
