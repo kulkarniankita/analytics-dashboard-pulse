@@ -9,6 +9,7 @@ const nextConfig: NextConfig = {
     staleTimes: {
       dynamic: 30,
     },
+    ppr: true,
   },
 };
 

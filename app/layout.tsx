@@ -17,6 +17,7 @@ import { AnalyticsInfoSkeleton } from "@/components/analytics-info/skeleton";
 import { AnalyticsInfo } from "@/components/analytics-info/analytics-info";
 import { VisitorFilterSkeleton } from "@/components/visitor-filter/skeleton";
 import VisitorFilter from "@/components/visitor-filter";
+import SearchSkeleton from "@/components/search/skeleton";
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
   variable: "--font-space-grotesk",
@@ -45,9 +46,8 @@ export default async function RootLayout({
             <h1 className="text-4xl font-black text-black bg-yellow-300 inline-block px-2 py-2 border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
               Analytics Info
             </h1>
-            <Suspense fallback={<AnalyticsInfoSkeleton />}>
-              <AnalyticsInfo />
-            </Suspense>
+
+            <AnalyticsInfo />
           </div>
 
           <Suspense fallback={<DashboardSkeleton />}>
@@ -58,7 +58,9 @@ export default async function RootLayout({
             <Insights journeysPromise={journeysPromise} />
           </Suspense>
 
-          <Search />
+          <Suspense fallback={<SearchSkeleton />}>
+            <Search />
+          </Suspense>
 
           <Suspense fallback={<VisitorFilterSkeleton />}>
             <VisitorFilter visitorFiltersPromise={visitorFiltersPromise} />
