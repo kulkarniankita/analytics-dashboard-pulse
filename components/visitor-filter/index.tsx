@@ -2,7 +2,7 @@
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import ToggleGroup from "../toggle-group";
 import { VisitorFilter as VisitorFilterType } from "@/prisma/app/generated/prisma/client";
-import { use, useTransition } from "react";
+import { use, useOptimistic, useTransition } from "react";
 import { FilterPreferences } from "@/@types/analytics";
 
 export default function VisitorFilter({
@@ -18,6 +18,8 @@ export default function VisitorFilter({
   const [isPending, startTransition] = useTransition();
 
   const selectedFilters = searchParams.getAll("filter");
+  const [optimisticFilters, setOptimisticFilters] =
+    useOptimistic(selectedFilters);
 
   const options = visitorFilters.flatMap((filter) => {
     const filterPrefs = filter.filters as FilterPreferences;
@@ -35,7 +37,7 @@ export default function VisitorFilter({
       <ToggleGroup
         toggleKey="filter"
         options={options}
-        selectedValues={selectedFilters}
+        selectedValues={optimisticFilters}
         onToggle={(newFilters) => {
           const params = new URLSearchParams(searchParams);
 
@@ -47,6 +49,8 @@ export default function VisitorFilter({
           });
 
           startTransition(() => {
+            setOptimisticFilters(newFilters);
+
             router.push(`?${params.toString()}`, {
               scroll: false,
             });
