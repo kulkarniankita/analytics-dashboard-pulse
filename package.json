@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "prebuild": "prisma migrate dev && npm run seed",
+    "prebuild": "prisma migrate deploy && npm run seed",
+    "prebuild:dev": "prisma migrate dev && npm run seed",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
